@@ -19,6 +19,21 @@ public class Agencia {
 
     public Agencia() {
     }
+    
+    public Agencia(Long idAgencia, String codigoAgencia, String cidade, String uf, String logradouro, String numero, String cep) {
+    this.idAgencia = idAgencia;
+    this.codigoAgencia = codigoAgencia;
+    this.cidade = cidade;
+    this.uf = uf;
+    this.logradouro = logradouro;
+    this.numero = numero;
+    this.cep = cep;
+}
+
+
+    public Agencia(Object object, String string, String são_Paulo, String sp, String avenida_Paulista, String string0, String string1) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
     public Long getIdAgencia() {
         return idAgencia;
