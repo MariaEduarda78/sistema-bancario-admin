@@ -7,6 +7,7 @@ package com.unincor.sistema.bancario.admin.model.services;
 import com.unincor.sistema.bancario.admin.exceptions.CadastroException;
 import com.unincor.sistema.bancario.admin.model.dao.AgenciaDao;
 import com.unincor.sistema.bancario.admin.model.domain.Agencia;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,25 +29,29 @@ public class AgenciaService {
         if (agenciaBusca != null) {
             throw new CadastroException("Código da agência já está cadastrado");
         }
-        
+
         // se a agencia esta com cidade e uf preenchidos.
-       if (agencia.getCidade() == null || agencia.getCidade().isBlank()) {
+        if (agencia.getCidade() == null || agencia.getCidade().isBlank()) {
             throw new CadastroException("Agência não possui uma cidade informada!!");
         }
-       if (agencia.getUf() == null || agencia.getUf().isBlank()) {
+        if (agencia.getUf() == null || agencia.getUf().isBlank()) {
             throw new CadastroException("Agência não possui uma uf informada!!");
         }
         agenciaDao.inserirAgencia(agencia);
     }
 
+    public List<Agencia> buscarAgencias() {
+        return agenciaDao.listarTodasAgencias();
+    }
+
     public static void main(String[] args) {
         AgenciaService agenciaService = new AgenciaService();
         Agencia agencia = new Agencia(null, null, "Três Corações", "MG", "Rei Pelé", "25", "3741000");
-        
+
         try {
             agenciaService.salvarAgencia(agencia);
         } catch (CadastroException ex) {
-                        Logger.getLogger(AgenciaService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AgenciaService.class.getName()).log(Level.SEVERE, null, ex);
 
         }
     }

@@ -74,7 +74,8 @@ public class AgenciaDao {
         agencia.setCidade(rs.getString("cidade"));
         agencia.setUf(rs.getString("uf"));
         agencia.setLogradouro(rs.getString("logradouro"));
-        agencia.setNumero("numero");
+        agencia.setNumero(rs.getString("numero"));
+
         agencia.setCep(rs.getString("cep"));
         return agencia;
     }

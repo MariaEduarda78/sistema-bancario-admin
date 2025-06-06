@@ -25,6 +25,15 @@ public class TelaCadastroAgencia extends javax.swing.JDialog {
     public TelaCadastroAgencia(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(parent);
+
+    }
+
+    public TelaCadastroAgencia(java.awt.Dialog parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
+        setLocationRelativeTo(parent);
+
     }
 
     /**
@@ -174,6 +183,7 @@ public class TelaCadastroAgencia extends javax.swing.JDialog {
         try {
             Agencia agencia = construirAgenciaView();
             agenciaService.salvarAgencia(agencia);
+            JOptionPane.showMessageDialog(this, "Salvo com sucesso!");
         } catch (CadastroException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(),
                     "Erro", JOptionPane.ERROR_MESSAGE);
