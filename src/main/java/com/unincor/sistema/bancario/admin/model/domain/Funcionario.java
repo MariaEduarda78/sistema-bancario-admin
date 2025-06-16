@@ -37,6 +37,10 @@ public class Funcionario extends Pessoa{
     public void setTurno(String turno) {
         this.turno = turno;
     }
+
+    public Object getAgencia() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
     
 
