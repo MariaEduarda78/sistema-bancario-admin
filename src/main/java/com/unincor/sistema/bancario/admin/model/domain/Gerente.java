@@ -4,6 +4,8 @@
  */
 package com.unincor.sistema.bancario.admin.model.domain;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author maria
@@ -16,6 +18,13 @@ public class Gerente extends Pessoa {
 
     public Gerente() {
     }
+
+    public Gerente(Long idGerente, Agencia agencia) {
+        this.idGerente = idGerente;
+        this.agencia = agencia;
+    }
+    
+    
 
     public Long getIdGerente() {
         return idGerente;
@@ -31,6 +40,10 @@ public class Gerente extends Pessoa {
 
     public void setAgencia(Agencia agencia) {
         this.agencia = agencia;
+    }
+
+    public void setIdAgencia(long aLong) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

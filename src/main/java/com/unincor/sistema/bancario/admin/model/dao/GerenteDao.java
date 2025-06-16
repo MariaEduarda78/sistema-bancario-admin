@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -26,45 +27,86 @@ public class GerenteDao {
     private List<Gerente> gerentes;
 
     public void inserirGerente(Gerente gerente) throws SQLException {
-        String sql = "INSERT INTO gerentes(nome,cpf, data_nascimento, email, telefone,senha_hash, agencia) VALUES (?,?,?,?,?,?,?)";
-        try (Connection con = MySQL.connect(); PreparedStatement psd = con.prepareStatement(sql)) {
-            psd.setString(1, gerente.getNome());
-            psd.setString(2, gerente.getCpf());
-            psd.setDate(3, Date.valueOf(gerente.getDataNascimento()));
-            psd.setString(4, gerente.getEmail());
-            psd.setString(5, gerente.getTelefone());
-            psd.setString(6, gerente.getSenhaHash());
-            psd.setLong(7, gerente.getAgencia().getIdAgencia());
-            psd.execute();
+        String sql = "INSERT INTO gerentes(nome,cpf, data_nascimento, email, telefone,senha_hash, id_agencia) VALUES (?,?,?,?,?,?,?)";
+        try (Connection con = MySQL.connect(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, gerente.getNome());
+            ps.setString(2, gerente.getCpf());
+            ps.setDate(3, Date.valueOf(gerente.getDataNascimento()));
+            ps.setString(4, gerente.getEmail());
+            ps.setString(5, gerente.getTelefone());
+            ps.setString(6, gerente.getSenhaHash());
+            ps.setLong(7, gerente.getAgencia().getIdAgencia());
+            ps.execute();
 
         } catch (SQLException ex) {
-            Logger.getLogger(GerenteDao.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
 
     public List<Gerente> buscarTodosGerentes() {
         List<Gerente> gerentes = new ArrayList<>();
         String sql = "SELECT * FROM gerentes";
-        try (Connection con = MySQL.connect(); PreparedStatement psd = con.prepareStatement(sql)) {
-            ResultSet rd = psd.executeQuery();
-            while (rd.next()) {
-                Gerente g = new Gerente();
-                g.setIdGerente(rd.getLong("id_gerente"));
-                g.setNome(rd.getString("cpf"));
-                g.setDataNascimento(rd.getDate("data_nascimento").toLocalDate());
-                g.setEmail(rd.getString("email"));
-                g.setTelefone(rd.getString("telefone"));
-                g.setSenhaHash(rd.getString("senha_hash"));
-
-                Agencia agencia = new Agencia();
-                agencia.setIdAgencia(rd.getLong("agencia"));
-                g.setAgencia(agencia);
-                gerentes.add(g);
+        try (Connection con = MySQL.connect(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                var gerente = construirGerenteSql(rs);
+                gerentes.add(gerente);
             }
         } catch (SQLException ex) {
             Logger.getLogger(GerenteDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return gerentes;
+    }
+
+    public Gerente buscarGerentePorId(Long idGerente) {
+        String sql = "SELECT * FROM gerentes where id_gerente = ?";
+        try (Connection con = MySQL.connect(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setLong(1, idGerente);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return construirGerenteSql(rs);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GerenteDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public Gerente construirGerenteSql(ResultSet rs) throws SQLException {
+        Gerente gerente = new Gerente();
+        Agencia agencia = new Agencia();
+
+        gerente.setIdGerente(rs.getLong("id_gerente"));
+        gerente.setNome(rs.getString("nome"));
+        gerente.setCpf(rs.getString("cpf"));
+        gerente.setDataNascimento(rs.getDate("data_nascimento").toLocalDate());
+        gerente.setEmail(rs.getString("email"));
+        gerente.setTelefone(rs.getString("telefone"));
+        gerente.setSenhaHash(rs.getString("senha_hash"));
+
+        agencia.setIdAgencia(rs.getLong("id_agencia"));
+        gerente.setAgencia(agencia);
+        return gerente;
+
+    }
+
+    public static void main(String[] args) throws SQLException {
+        GerenteDao gerenteDao = new GerenteDao();
+        Agencia agencia = new Agencia();
+        agencia.setIdAgencia(1L);
+
+        Gerente g = new Gerente();
+        g.setNome("Henrique Lima");
+        g.setCpf("14515264515");
+        g.setDataNascimento(LocalDate.of(2008, 9, 12));
+        g.setEmail("henriquelimaa90@gmail.com");
+        g.setTelefone("35998561896");
+        g.setSenhaHash("henrique4516");
+        g.setAgencia(agencia);
+
+        gerenteDao.inserirGerente(g);
+        System.out.println("Gerente inserido.");
+
     }
 
 }

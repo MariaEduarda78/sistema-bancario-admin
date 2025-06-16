@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author dioge
+ * @author maria
  */
 public class ClienteDao {
 
@@ -81,18 +81,18 @@ public class ClienteDao {
     }
 
     public static void main(String[] args) {
-        // Cliente cliente = new Cliente(null, "Matheus Torremo", "78653421", LocalDate.now(),
-                // "matheus@unincor.edu.br", "8976895423", "97546634879900");
+        Cliente cliente = new Cliente(null, "Matheus Torremo", "78653421", LocalDate.now(),
+                "matheus@unincor.edu.br", "8976895423", "97546634879900");
         ClienteDao clienteDao = new ClienteDao();
-        // var clientes = clienteDao.buscarTodosClientes();
-        // clientes.forEach(c -> System.out.println("Id: " + c.getIdCliente()
-                //+ " Nome: " + c.getNome() + " CPF: " + c.getCpf() + " Data Nascimento: " + c.getDataNascimento()
-                // + " Data NAscimento: " + c.getDataNascimento() + " EMAIL: " + c.getEmail() + " Telefone: " + c.getTelefone()
-                // + " SENHA HASH: " + c.getSenhaHash()
-        // ));
+        var clientes = clienteDao.buscarTodosClientes();
+        clientes.forEach(c -> System.out.println("Id: " + c.getIdCliente()
+                + " Nome: " + c.getNome() + " CPF: " + c.getCpf() + " Data Nascimento: " + c.getDataNascimento()
+                + " Data NAscimento: " + c.getDataNascimento() + " EMAIL: " + c.getEmail() + " Telefone: " + c.getTelefone()
+                + " SENHA HASH: " + c.getSenhaHash()
+        ));
         var c = clienteDao.buscarClientePorId(1l);
         System.out.println("Id: " + c.getIdCliente() + "Nome: " + c.getNome());
-        
+
     }
 
 }

@@ -10,7 +10,6 @@ import com.unincor.sistema.bancario.admin.model.domain.Agencia;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 /**
  *
  * @author maria
